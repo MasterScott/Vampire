@@ -5,6 +5,9 @@
  */
 package vampire;
 
+import com.google.gson.Gson;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import java.util.Map;
 public class clientConfig {
     
     private static final String jsonPath = "./data/conf.json";
+    private static final String scriptPath = "./data/scripts/";
     
     private URL jarURL;
     private String mainClass;
@@ -25,20 +29,27 @@ public class clientConfig {
     private String playerClass;
     private Map clientVars = new HashMap();
     
-    public clientConfig() {
-        loadJson();
+    public clientConfig() throws Exception {
+
     }
     
     public Field getObf(String fieldName) {
-        return null;
+        return (Field) clientVars.get(fieldName);
     }
     
-    public void loadJson() {
-        
+    public static clientConfig loadJson() throws Exception {
+        Gson gson = new Gson();
+        clientConfig conf = gson.fromJson(new FileReader(jsonPath), clientConfig.class);
+        return conf;
     }
+
     
     public URL getJarURL() {
         return jarURL;
+    }
+    
+    public String getScriptPath() {
+        return scriptPath;
     }
     
     public String getMainClass() {
