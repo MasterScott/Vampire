@@ -1,0 +1,14 @@
+{
+  "jarURL": "file:/E:/Vampire/./client.jar",
+  "mainClass": "Client",
+  "streamClass": "Stream",
+  "playerClass": "Player",
+  "mainMethod": "main",
+  "clientArgs": [
+    "a",
+    "a"
+  ],
+  "clientVars": {
+    "baseX": "baseX"
+  }
+}

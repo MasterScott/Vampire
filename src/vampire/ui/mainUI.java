@@ -5,6 +5,11 @@
  */
 package vampire.ui;
 
+import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import vampire.Vampire;
+
 /**
  *
  * @author Machiavelli
@@ -35,7 +40,23 @@ public class mainUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vampire 0.1a");
 
+        tCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tCommandActionPerformed(evt);
+            }
+        });
+        tCommand.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tCommandKeyPressed(evt);
+            }
+        });
+
         bSend.setText("Send");
+        bSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSendActionPerformed(evt);
+            }
+        });
 
         tLog.setColumns(20);
         tLog.setRows(5);
@@ -69,6 +90,34 @@ public class mainUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSendActionPerformed
+        try {
+            String retVal = Vampire.handleCommand(tCommand.getText());
+            tLog.setText(tLog.getText() + "\r\n" + retVal);
+            tCommand.setText("");
+        } catch (Exception ex) {
+            Logger.getLogger(mainUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_bSendActionPerformed
+
+    private void tCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tCommandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tCommandActionPerformed
+
+    private void tCommandKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tCommandKeyPressed
+            if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            {
+            try {
+                String retVal = Vampire.handleCommand(tCommand.getText());
+                tLog.setText(tLog.getText() + "\r\n" + retVal);
+                tCommand.setText("");
+            } catch (Exception ex) {
+                Logger.getLogger(mainUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+    }//GEN-LAST:event_tCommandKeyPressed
 
     /**
      * @param args the command line arguments

@@ -30,9 +30,13 @@ public class Vampire {
     private static ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     
     public static void main(String[] args) throws Exception {
+        System.out.println(System.getProperty("user.dir"));
         conf = clientConfig.loadJson();
+        //conf = new clientConfig();
+        //conf.dumpConfig();
         window = new mainUI();
         window.setVisible(true);
+        loadClient();
     }
     
     public static void loadClient() throws Exception {
@@ -41,11 +45,13 @@ public class Vampire {
         URLClassLoader jarLoader = new URLClassLoader(javaNeedsAnArray);
         Class mainClass = jarLoader.loadClass(conf.getMainClass());
         Object mainInstance = mainClass.newInstance();
-        mainClass.getMethod("main").invoke(mainInstance);
+        String[] args = conf.getArgs();
+        mainClass.getDeclaredMethod(conf.getMainMethod(), new Class[]{String[].class})
+                .invoke(mainInstance, new Object[]{args});
     }
     
     public static String handleCommand(String command) throws Exception {
-        String scriptPath = conf.getScriptPath() + command + ".js";
+        String scriptPath = clientConfig.getScriptPath() + command + ".js";
         File f = new File(scriptPath);
         if(!f.exists()) {
             return "Error! Invalid command!";
