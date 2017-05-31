@@ -9,6 +9,21 @@
     "a"
   ],
   "clientVars": {
+    "baseX": "baseX"
+  },
+  "playerVars": {
+    "x": "x"
+  },
+  "streamVars": {
     "Client.baseX": "Client.baseX"
+  },  
+  "clientMethods": {
+    "login": "login"
+  },
+  "playerMethods": {
+    "method452": "method452"
+  },
+  "streamMethods": {
+    "createFrame": "createFrame"
   }
 }

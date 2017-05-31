@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,14 @@ public class clientConfig {
     private String playerClass;
     private String[] clientArgs;
     private String mainMethod;
+    
     private Map clientVars = new HashMap();
+    private Map playerVars = new HashMap();
+    private Map streamVars = new HashMap();
+    
+    private Map clientMethods = new HashMap();
+    private Map playerMethods = new HashMap();
+    private Map streamMethods = new HashMap();
     
     public clientConfig() throws Exception {
         jarURL = new File("./client.jar").toURI().toURL();
@@ -54,14 +62,46 @@ public class clientConfig {
         return clientArgs;
     }
     
-    public String getObf(String fieldName) {
-        if(clientVars.get(fieldName) != null) {
-           return (String) clientVars.get(fieldName);
+    public String getObfName(String fieldName, String cName) {
+        switch(cName.toLowerCase()) {
+            case "client":
+                if(clientVars.get(fieldName) != null) {
+                   return (String) clientVars.get(fieldName);
+                }
+                break;
+            case "stream":
+                if(streamVars.get(fieldName) != null) {
+                   return (String) clientVars.get(fieldName);
+                }
+                break;
+            case "player":
+                if(playerVars.get(fieldName) != null) {
+                   return (String) clientVars.get(fieldName);
+                }
+                break;
         }
-        else {
-            return fieldName;
+        return fieldName; //if no obfuscation map is found, we just return the original name for compatibility.
+    }
+    
+    public String getObfMethod(String methodName, String cName) {
+        switch(cName.toLowerCase()) {
+            case "client":
+                if(clientMethods.get(methodName) != null) {
+                   return (String) clientMethods.get(methodName);
+                }
+                break;
+            case "stream":
+                if(streamMethods.get(methodName) != null) {
+                   return (String) clientMethods.get(methodName);
+                }
+                break;
+            case "player":
+                if(playerMethods.get(methodName) != null) {
+                   return (String) clientMethods.get(methodName);
+                }
+                break;
         }
-
+        return methodName; //if no obfuscation map is found, we just return the original name for compatibility.
     }
     
     public void dumpConfig() throws IOException {

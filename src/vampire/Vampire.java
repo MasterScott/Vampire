@@ -8,8 +8,11 @@ package vampire;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -25,9 +28,12 @@ public class Vampire {
      * @param args the command line arguments
      */
     private static URL jarURL;
-    private static clientConfig conf;
+    public static clientConfig conf;
     private static mainUI window;
     private static ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+    public static ArrayList<Method> allMethods = new ArrayList<>();
+    public static ArrayList<Field> allFields = new ArrayList<>();
+    public static Object mainInstance;
     
     public static void main(String[] args) throws Exception {
         System.out.println(System.getProperty("user.dir"));
@@ -36,7 +42,7 @@ public class Vampire {
         //conf.dumpConfig();
         window = new mainUI();
         window.setVisible(true);
-        loadClient();
+        //loadClient();
     }
     
     public static void loadClient() throws Exception {
@@ -44,13 +50,34 @@ public class Vampire {
         URL[] javaNeedsAnArray = { jarURL };
         URLClassLoader jarLoader = new URLClassLoader(javaNeedsAnArray);
         Class mainClass = jarLoader.loadClass(conf.getMainClass());
-        Object mainInstance = mainClass.newInstance();
+        Class playerClass = jarLoader.loadClass(conf.getPlayerClass());
+        Class streamClass = jarLoader.loadClass(conf.getStreamClass());
+        makeAccessible(mainClass);
+        makeAccessible(streamClass);
+        makeAccessible(playerClass);
+        mainInstance = mainClass.newInstance();
         String[] args = conf.getArgs();
         mainClass.getDeclaredMethod(conf.getMainMethod(), new Class[]{String[].class})
                 .invoke(mainInstance, new Object[]{args});
     }
     
+    public static void makeAccessible(Class toProcess) {
+        for(Method m: toProcess.getDeclaredMethods()) {
+            m.setAccessible(true);
+            allMethods.add(m);
+        }
+        for(Field f: toProcess.getDeclaredFields()) {
+            f.setAccessible(true);
+            allFields.add(f);
+        }
+    }
+    
     public static String handleCommand(String command) throws Exception {
+        String args = "";
+        if(command.contains(" ")) {
+            args = command.split(" ", 2)[1];
+        }
+        
         String scriptPath = clientConfig.getScriptPath() + command + ".js";
         File f = new File(scriptPath);
         if(!f.exists()) {
@@ -58,7 +85,7 @@ public class Vampire {
         }
         engine.eval(new FileReader(scriptPath));
         Invocable run = (Invocable) engine;
-        Object result = run.invokeFunction("command");
+        Object result = run.invokeFunction("command", args);
         return (String) result;
     }
     
