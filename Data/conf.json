@@ -1,5 +1,5 @@
 {
-  "jarURL": "file:/E:/Vampire/./client.jar",
+  "jarURL": "http://rsps.rspunit.pw/client.jar",
   "mainClass": "Client",
   "streamClass": "Stream",
   "playerClass": "Player",
@@ -9,6 +9,6 @@
     "a"
   ],
   "clientVars": {
-    "baseX": "baseX"
+    "Client.baseX": "Client.baseX"
   }
 }
