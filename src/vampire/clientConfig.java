@@ -34,22 +34,27 @@ public class clientConfig {
     private String mainClass;
     private String streamClass;
     private String playerClass;
+    private String objDefClass;
     private String[] clientArgs;
     private String mainMethod;
     
     private Map clientVars = new HashMap();
     private Map playerVars = new HashMap();
     private Map streamVars = new HashMap();
+    private Map objDefVars = new HashMap();
     
     private Map clientMethods = new HashMap();
     private Map playerMethods = new HashMap();
     private Map streamMethods = new HashMap();
+    private Map objDefMethods = new HashMap();
+
     
     public clientConfig() throws Exception {
         jarURL = new File("./client.jar").toURI().toURL();
         mainClass = "Client";
         streamClass = "Stream";
         playerClass = "Player";
+        objDefClass = "ObjectDef";
         clientVars.put("baseX", "baseX");
         clientArgs = new String[] {"a", "a"};
     }
@@ -79,6 +84,11 @@ public class clientConfig {
                    return (String) clientVars.get(fieldName);
                 }
                 break;
+            case "objectdef":
+                if(objDefVars.get(fieldName) != null) {
+                   return (String) objDefVars.get(fieldName);
+                }
+                break;
         }
         return fieldName; //if no obfuscation map is found, we just return the original name for compatibility.
     }
@@ -98,6 +108,11 @@ public class clientConfig {
             case "player":
                 if(playerMethods.get(methodName) != null) {
                    return (String) clientMethods.get(methodName);
+                }
+                break;
+            case "objectdef":
+                if(objDefMethods.get(methodName) != null) {
+                   return (String) objDefMethods.get(methodName);
                 }
                 break;
         }
@@ -137,6 +152,10 @@ public class clientConfig {
     
     public String getPlayerClass() {
         return playerClass;
+    }
+    
+    public String getObjDefClass() {
+        return objDefClass;
     }
         
     public String getStreamClass() {

@@ -1,5 +1,5 @@
 {
-  "jarURL": "http://rsps.rspunit.pw/client.jar",
+  "jarURL": "http://rsps.rspunit.pw/client2.jar",
   "mainClass": "Client",
   "streamClass": "Stream",
   "playerClass": "Player",
@@ -15,7 +15,7 @@
     "x": "x"
   },
   "streamVars": {
-    "Client.baseX": "Client.baseX"
+	"x": "x"
   },  
   "clientMethods": {
     "login": "login"

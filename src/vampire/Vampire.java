@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import vampire.api.core;
 import vampire.ui.mainUI;
 
 /**
@@ -52,10 +53,15 @@ public class Vampire {
         Class mainClass = jarLoader.loadClass(conf.getMainClass());
         Class playerClass = jarLoader.loadClass(conf.getPlayerClass());
         Class streamClass = jarLoader.loadClass(conf.getStreamClass());
+        Class objDefClass = jarLoader.loadClass(conf.getObjDefClass());
         makeAccessible(mainClass);
         makeAccessible(streamClass);
         makeAccessible(playerClass);
-        mainInstance = mainClass.newInstance();
+        makeAccessible(objDefClass);
+        mainInstance = objDefClass.getDeclaredField("clientInstance").get(null);
+        if(mainInstance == null) {
+            System.out.println("Null instance!");
+        }
         String[] args = conf.getArgs();
         mainClass.getDeclaredMethod(conf.getMainMethod(), new Class[]{String[].class})
                 .invoke(mainInstance, new Object[]{args});

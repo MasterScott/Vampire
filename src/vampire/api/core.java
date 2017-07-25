@@ -38,6 +38,7 @@ public class core {
                 return f;
             }
         }
+        System.out.println("FAILURE! Could not get field " + fieldName);
         return null;
     }
     
@@ -64,16 +65,18 @@ public class core {
     public static int getPlayerX() throws Exception {
         Object playerObj = getField("myPlayer", Vampire.conf.getMainClass()).get(Vampire.mainInstance);
         int pX = (int) getMemberField(playerObj, "x");
-        int bX = (int) getField("baseX", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
-        return(bX + (pX >> 7));
-        //return pX;
+        int bX = getField("baseX", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
+        System.out.println(bX);
+        return (pX >> 7) + bX;
     }
     
     public static int getPlayerY() throws Exception {
         Object playerObj = getField("myPlayer", Vampire.conf.getMainClass()).get(Vampire.mainInstance);
         int pY = (int) getMemberField(playerObj, "y");
-        int bY = (int) getField("baseY", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
-        return(bY + (pY >> 7));
+        int bY = getField("baseY", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
+        System.out.println(bY);
+        return (pY >> 7) + bY;
+        
     }
     
     public static int getPlayerZ() throws Exception {
@@ -90,7 +93,7 @@ public class core {
         int l17 = anInt[10];
         if ((y2 > 0) && (y2 < 103) && (x2 > 0) && (x2 < 103)) {
             getMethod("method130", Vampire.conf.getMainClass())
-                .invoke(Vampire.mainInstance, new Object[] { -1, id, face, l17, y2, type, height, x2, 0});
+                .invoke(Vampire.mainInstance, new Object[] { -1, id, face, 117, y2, type, height, x2, 0});
             return true;
         }
         } catch(Exception ex) {
@@ -98,6 +101,7 @@ public class core {
         }
         return false;
     }
+    
     
     public static boolean setClientField(String FQDN, Object value) {
         return false;
