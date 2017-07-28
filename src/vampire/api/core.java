@@ -84,7 +84,7 @@ public class core {
     }
     public static int getPlayerX() throws Exception {
         Object playerObj = getField("myPlayer", Vampire.conf.getMainClass()).get(Vampire.mainInstance);
-        int pX = (int) getMemberField(playerObj, "x");
+        int pX = (int) getMemberField(playerObj, Vampire.conf.getObfName("x", Vampire.conf.getPlayerClass()));
         int bX = getField("baseX", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
         System.out.println(bX);
         return (pX >> 7) + bX;
@@ -92,7 +92,7 @@ public class core {
     
     public static int getPlayerY() throws Exception {
         Object playerObj = getField("myPlayer", Vampire.conf.getMainClass()).get(Vampire.mainInstance);
-        int pY = (int) getMemberField(playerObj, "y");
+        int pY = (int) getMemberField(playerObj, Vampire.conf.getObfName("y", Vampire.conf.getPlayerClass()));
         int bY = getField("baseY", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
         System.out.println(bY);
         return (pY >> 7) + bY;

@@ -68,28 +68,26 @@ public class clientConfig {
     }
     
     public String getObfName(String fieldName, String cName) {
-        switch(cName.toLowerCase()) {
-            case "client":
+            if(cName == mainClass) {
                 if(clientVars.get(fieldName) != null) {
                    return (String) clientVars.get(fieldName);
                 }
-                break;
-            case "stream":
+            }
+            if(cName == streamClass) {
                 if(streamVars.get(fieldName) != null) {
-                   return (String) clientVars.get(fieldName);
+                   return (String) streamVars.get(fieldName);
                 }
-                break;
-            case "player":
+            }
+            if(cName == playerClass) {
                 if(playerVars.get(fieldName) != null) {
-                   return (String) clientVars.get(fieldName);
+                   return (String) playerVars.get(fieldName);
                 }
-                break;
-            case "objectdef":
+            }
+            if(cName == objDefClass) {
                 if(objDefVars.get(fieldName) != null) {
                    return (String) objDefVars.get(fieldName);
                 }
-                break;
-        }
+            }
         return fieldName; //if no obfuscation map is found, we just return the original name for compatibility.
     }
     
