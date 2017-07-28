@@ -6,9 +6,20 @@ For when Magic Mirror is just overkill
 
 
 **Command plugins**
->var MyJavaClass = Java.type('vampire.api.core');
+>var api = Java.type('vampire.api.core');
 >
 >var command = function(args) {
->	startClient();
+>	api.startClient();
 >	return "Started client!";
+>};
+
+**Utilizing the stream**
+>var stream = Java.type('vampire.api.packet');
+>
+>var command = function(args) {
+>	stream.createFrame(41);
+>	stream.writeWord(995);
+>	stream.method432(1);
+>	stream.method432(interfaceID);
+>	return "Equipped item!";
 >};
