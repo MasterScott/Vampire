@@ -29,7 +29,7 @@ public class core {
                 mainInstance = Vampire.objDefClass.getDeclaredField(Vampire.conf.getObfName("clientInstance", Vampire.conf.getMainClass())).get(null);
                  Field sI = Vampire.mainClass.getDeclaredField(Vampire.conf.getObfName("stream", Vampire.conf.getStreamClass())); //aStream_834
                  sI.setAccessible(true);
-                 Vampire.streamInstance = sI.get(mainInstance);;
+                 Vampire.streamInstance = sI.get(mainInstance);
             }
         } catch (NoSuchFieldException ex) {
             Logger.getLogger(core.class.getName()).log(Level.SEVERE, null, ex);

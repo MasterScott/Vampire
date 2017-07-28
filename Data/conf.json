@@ -1,24 +1,46 @@
 {
-  "jarURL": "http://rsps.rspunit.pw/client2.jar",
+  "jarURL": "",
   "mainClass": "Client",
   "streamClass": "Stream",
   "playerClass": "Player",
+  "objDefClass": "ObjectDef",
   "mainMethod": "main",
   "clientArgs": [
     "a",
     "a"
   ],
   "clientVars": {
-    "baseX": "baseX"
+    "baseX": "baseX",
+	"inputDialogState": "inputDialogState",
+	"inputTaken": "inputTaken",
+	"backDialogID": "backDialogID",
+	"tabAreaAltered": "tabAreaAltered",
+	"needDrawTabArea": "needDrawTabArea",
+	"plane": "plane",
+	"myPlayer": "myPlayer",
+	"baseY": "baseY",
+	"aBoolean1149": "aBoolean1149",
+	"pktType": "pktType",
+	"tabInterfaceIDs": "tabInterfaceIDs",
+	"anInt1069": "anInt1069",
+	"anInt1070": "anInt1070",
+	"anIntArray1177": "anIntArray1177",
+	"invOverlayInterfaceID": "invOverlayInterfaceID"
   },
   "playerVars": {
-    "x": "x"
+    "x": "x",
+	"y": "y"
   },
   "streamVars": {
 	"x": "x"
   },  
   "clientMethods": {
-    "login": "login"
+    "login": "login",
+	"method60": "method60",
+	"method130": "method130"
+  },  
+  "objDefVars": {
+    "clientInstance": "clientInstance"
   },
   "playerMethods": {
     "method452": "method452"
@@ -28,8 +50,10 @@
 	"writeDWord": "writeDWord",
 	"writeWordBigEndian": "writeWordBigEndian",
 	"writeWord": "writeWord",
+	"writeDWordBigEndian": "writeDWordBigEndian",
 	"method403": "method403",
 	"writeQWord": "writeQWord",
+	"writeWordBigEndian": "writeWordBigEndian",
 	"writeString": "writeString",	
 	"method424": "method424",	
 	"method425": "method425",	
