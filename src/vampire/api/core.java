@@ -26,8 +26,8 @@ public class core {
     public static void setInstance() {
         try {
             if(mainInstance == null) {
-                mainInstance = Vampire.objDefClass.getDeclaredField("clientInstance").get(null);
-                 Field sI = Vampire.mainClass.getDeclaredField("stream"); //aStream_834
+                mainInstance = Vampire.objDefClass.getDeclaredField(Vampire.conf.getObfName("clientInstance", Vampire.conf.getMainClass())).get(null);
+                 Field sI = Vampire.mainClass.getDeclaredField(Vampire.conf.getObfName("stream", Vampire.conf.getStreamClass())); //aStream_834
                  sI.setAccessible(true);
                  Vampire.streamInstance = sI.get(mainInstance);;
             }
