@@ -24,6 +24,17 @@
     "method452": "method452"
   },
   "streamMethods": {
-    "createFrame": "createFrame"
+    "createFrame": "createFrame",
+	"writeDWord": "writeDWord",
+	"writeWordBigEndian": "writeWordBigEndian",
+	"writeWord": "writeWord",
+	"method403": "method403",
+	"writeQWord": "writeQWord",
+	"writeString": "writeString",	
+	"method424": "method424",	
+	"method425": "method425",	
+	"method431": "method431",	
+	"method432": "method432",	
+	"method433": "method433"			
   }
 }

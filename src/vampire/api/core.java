@@ -6,10 +6,12 @@
 package vampire.api;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import vampire.Vampire;
+import static vampire.Vampire.mainInstance;
 
 /**
  *
@@ -19,6 +21,22 @@ public class core {
     
     public static void print(String text) {
         System.out.println(text);
+    }
+    
+    public static void setInstance() {
+        try {
+            if(mainInstance == null) {
+                mainInstance = Vampire.objDefClass.getDeclaredField("clientInstance").get(null);
+            }
+        } catch (NoSuchFieldException ex) {
+            Logger.getLogger(core.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(core.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(core.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(core.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void startClient() {
@@ -33,6 +51,7 @@ public class core {
     }
     
     public static Field getField(String fieldName, String cName) {
+        setInstance();
         for(Field f: Vampire.allFields) {
             if(f.getName().equals(Vampire.conf.getObfName(fieldName, cName)) && f.getDeclaringClass().getName().equalsIgnoreCase(cName)) {
                 return f;
@@ -43,8 +62,9 @@ public class core {
     }
     
     public static Method getMethod(String methodName, String cName) {
+        setInstance();
         for(Method m: Vampire.allMethods) {
-            if(m.getName().equals(Vampire.conf.getObfName(methodName, cName)) && m.getDeclaringClass().getName().equalsIgnoreCase(cName)) {
+            if(m.getName().equals(Vampire.conf.getObfName(methodName, cName)) && m.getDeclaringClass().getName().equals(cName)) {
                 return m;
             }
         }
@@ -82,6 +102,58 @@ public class core {
     public static int getPlayerZ() throws Exception {
         return getField("plane", Vampire.conf.getMainClass()).getInt(Vampire.mainInstance);
     }
+    
+    public static boolean openInterface(int interfaceID) {
+        try {
+            Field openInterfaceID = getField("openInterfaceID", Vampire.conf.getMainClass());
+            Field invOverlayInterfaceID = getField("invOverlayInterfaceID", Vampire.conf.getMainClass());
+            Field needDrawTabArea = getField("needDrawTabArea", Vampire.conf.getMainClass());
+            Field tabAreaAltered = getField("tabAreaAltered", Vampire.conf.getMainClass());
+            Field backDialogID = getField("backDialogID", Vampire.conf.getMainClass());
+            Field inputTaken = getField("inputTaken", Vampire.conf.getMainClass());
+            Field inputDialogState = getField("inputDialogState", Vampire.conf.getMainClass());
+            Method m = getMethod("method60", Vampire.conf.getMainClass());
+            m.invoke(mainInstance, new Object[] { Integer.valueOf(interfaceID) });
+            
+            if (((Integer)invOverlayInterfaceID.get(mainInstance)).intValue() != -1) {
+                invOverlayInterfaceID.set(mainInstance, Integer.valueOf(-1));
+                needDrawTabArea.set(mainInstance, Boolean.valueOf(true));
+                tabAreaAltered.set(mainInstance, Boolean.valueOf(true));
+            }
+            if (((Integer)backDialogID.get(mainInstance)).intValue() != -1) {
+                backDialogID.set(mainInstance, Integer.valueOf(-1));
+                inputTaken.set(mainInstance, Boolean.valueOf(true));
+            }
+            if (((Integer)inputDialogState.get(mainInstance)).intValue() != 0) {
+                inputDialogState.set(mainInstance, Integer.valueOf(0));
+                inputTaken.set(mainInstance, Boolean.valueOf(true));
+            }
+            openInterfaceID.set(mainInstance, Integer.valueOf(interfaceID));
+            getField("aBoolean1149", Vampire.conf.getMainClass()).set(mainInstance, Boolean.valueOf(false));
+            getField("pktType", Vampire.conf.getMainClass()).set(mainInstance, Integer.valueOf(-1));
+            openInterfaceID.set(mainInstance, Integer.valueOf(interfaceID));
+            return true;
+        } catch (Exception ex) {
+            return false;
+        } 
+    }
+    
+    public static boolean setSidebar(int menuId, int form) {
+        try {
+            int l1 = form;
+            int j10 = menuId;
+            int[] f = (int[])getField("tabInterfaceIDs", Vampire.conf.getMainClass()).get(mainInstance);
+            f[j10] = l1;
+            getField("tabInterfaceIDs", Vampire.conf.getMainClass()).set(mainInstance, f);
+            getField("needDrawTabArea", Vampire.conf.getMainClass()).setBoolean(mainInstance, true);
+            getField("tabAreaAltered", Vampire.conf.getMainClass()).setBoolean(mainInstance, true);
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } 
+        return true; //even if we get an exception, it probably worked anyway. Just java freaking out about final fields.
+    }
+    
     
     public static boolean spawnObject(int x, int y, int id, int face, int type, int height) {
         try {

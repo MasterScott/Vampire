@@ -35,6 +35,10 @@ public class Vampire {
     public static ArrayList<Method> allMethods = new ArrayList<>();
     public static ArrayList<Field> allFields = new ArrayList<>();
     public static Object mainInstance;
+    public static    Class mainClass;
+    public static    Class playerClass;
+    public static    Class streamClass;
+    public static    Class objDefClass;
     
     public static void main(String[] args) throws Exception {
         System.out.println(System.getProperty("user.dir"));
@@ -50,18 +54,15 @@ public class Vampire {
         jarURL = conf.getJarURL();
         URL[] javaNeedsAnArray = { jarURL };
         URLClassLoader jarLoader = new URLClassLoader(javaNeedsAnArray);
-        Class mainClass = jarLoader.loadClass(conf.getMainClass());
-        Class playerClass = jarLoader.loadClass(conf.getPlayerClass());
-        Class streamClass = jarLoader.loadClass(conf.getStreamClass());
-        Class objDefClass = jarLoader.loadClass(conf.getObjDefClass());
+        mainClass = jarLoader.loadClass(conf.getMainClass());
+        playerClass = jarLoader.loadClass(conf.getPlayerClass());
+        streamClass = jarLoader.loadClass(conf.getStreamClass());
+        objDefClass = jarLoader.loadClass(conf.getObjDefClass());
         makeAccessible(mainClass);
         makeAccessible(streamClass);
         makeAccessible(playerClass);
         makeAccessible(objDefClass);
-        mainInstance = objDefClass.getDeclaredField("clientInstance").get(null);
-        if(mainInstance == null) {
-            System.out.println("Null instance!");
-        }
+        mainInstance = null;
         String[] args = conf.getArgs();
         mainClass.getDeclaredMethod(conf.getMainMethod(), new Class[]{String[].class})
                 .invoke(mainInstance, new Object[]{args});
@@ -82,6 +83,7 @@ public class Vampire {
         String args = "";
         if(command.contains(" ")) {
             args = command.split(" ", 2)[1];
+            command = command.split(" ", 2)[0];
         }
         
         String scriptPath = clientConfig.getScriptPath() + command + ".js";
