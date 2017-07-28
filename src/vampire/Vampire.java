@@ -35,6 +35,7 @@ public class Vampire {
     public static ArrayList<Method> allMethods = new ArrayList<>();
     public static ArrayList<Field> allFields = new ArrayList<>();
     public static Object mainInstance;
+    public static Object streamInstance;
     public static    Class mainClass;
     public static    Class playerClass;
     public static    Class streamClass;
