@@ -53,7 +53,6 @@
 	"writeDWordBigEndian": "writeDWordBigEndian",
 	"method403": "method403",
 	"writeQWord": "writeQWord",
-	"writeWordBigEndian": "writeWordBigEndian",
 	"writeString": "writeString",	
 	"method424": "method424",	
 	"method425": "method425",	
